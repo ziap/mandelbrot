@@ -1,6 +1,6 @@
 # Mandelbrot explorer
 
-Experimental mandelbrot explorer in C.
+Experimental mandelbrot explorer in C and OpenGL.
 
 ## Features
 
@@ -26,14 +26,6 @@ Experimental mandelbrot explorer in C.
 - GNU make
 - GLFW
 - GLEW
-
-Check if the requirements are properly installed
-
-```bash
-cc --version
-make --version
-sdl2-config --version
-```
 
 ## Usage
 
