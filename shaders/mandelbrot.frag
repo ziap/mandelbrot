@@ -1,8 +1,5 @@
 #version 330 core
 
-out vec4 color;
-in vec3 vertex_color;
-
 uniform vec2 u_resolution;
 uniform vec2 u_center;
 uniform float u_scale;
@@ -44,13 +41,10 @@ void main() {
     float iter1 = (iter + fnu) / HUE_SCALE;
     float iter2 = (iter + 1 + fnu) / HUE_SCALE;
 
-    float iterp = 1 - nu - fnu;
-    
-    vec3 color1 = palette(iter1);
-    vec3 color2 = palette(iter2);
+    float interp = 1 - nu - fnu;
 
-    color = vec4(color1 + (color2 - color1) * iterp, 1.0);
+    gl_FragColor = vec4(mix(palette(iter1), palette(iter2), interp), 1.0);
   } else {
-    color = vec4(0.0, 0.0, 0.0, 1.0);
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
   }
 };
