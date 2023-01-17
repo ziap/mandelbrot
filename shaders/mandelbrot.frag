@@ -12,34 +12,36 @@ vec3 color_offset = vec3(0.55, 0.35, 0.15);
 #define MAX_ITER 1024
 
 vec3 palette(float iter) {
-  return 0.5 + 0.5 * sin(PI2 * (color_offset + iter));
+  return 0.5 + 0.5 * sin(PI2 * (color_offset + iter / HUE_SCALE));
 }
 
 void main() {
-  vec2 uv = (gl_FragCoord.xy - u_resolution / 2 - u_center) / u_scale;
+  vec2 c = (gl_FragCoord.xy - u_resolution / 2 - u_center) / u_scale;
 
   float xx = 0;
   float yy = 0;
   float w = 0;
+  float len = 0;
 
   int iter = 0;
-  while (xx + yy < BAILOUT && iter < MAX_ITER) {
-    float x = xx - yy + uv.x;
-    float y = w - xx - yy + uv.y;
+  while (len < BAILOUT && iter < MAX_ITER) {
+    float x = xx - yy + c.x;
+    float y = w - xx - yy + c.y;
     float xy = x + y;
 
     xx = x * x;
     yy = y * y;
+    len = xx + yy;
     w = xy * xy;
     ++iter;
   }
   
   if (iter < MAX_ITER) {
-    float nu = log2(log2(xx + yy) / 2);
+    float nu = log2(log2(len) / 2);
     float fnu = floor(1 - nu);
 
-    float iter1 = (iter + fnu) / HUE_SCALE;
-    float iter2 = (iter + 1 + fnu) / HUE_SCALE;
+    float iter1 = (iter + fnu);
+    float iter2 = (iter + 1 + fnu);
 
     float interp = 1 - nu - fnu;
 

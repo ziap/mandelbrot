@@ -1,9 +1,10 @@
+#include "render.h"
+
 #include <GL/glew.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "../shaders/mandelbrot.h"
-#include "render.h"
 #include "state.h"
 
 static GLuint main_program;
@@ -51,21 +52,6 @@ static GLuint create_program(const char *vertex_src, const char *fragment_src) {
 }
 
 void render_init() {
-  GLuint buffer;
-  float vertices[] = {
-      1.0,  1.0,  // top-right
-      -1.0, 1.0,  // top-left
-      -1.0, -1.0, // bottom-left
-      1.0,  -1.0, // bottom-right
-  };
-  glCreateBuffers(1, &buffer);
-  glBindBuffer(GL_ARRAY_BUFFER, buffer);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  // Position attribute
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
-
   main_program = create_program(mandelbrot_vert, mandelbrot_frag);
   glUseProgram(main_program);
 
@@ -81,7 +67,7 @@ void render_update() {
   glUniform1f(u_scale, global_state.scale);
   glUniform2f(u_resolution, global_state.width, global_state.height);
 
-  glDrawArrays(GL_QUADS, 0, 4);
+  glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void render_cleanup() { glDeleteProgram(main_program); }
