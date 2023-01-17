@@ -13,6 +13,14 @@ static GLint u_center;
 static GLint u_scale;
 static GLint u_resolution;
 
+static const char *shader_type_str(GLuint type) {
+  switch (type) {
+    case GL_VERTEX_SHADER: return "vertex shader";
+    case GL_FRAGMENT_SHADER: return "fragment shader";
+    default: return "uknown shader";
+  }
+}
+
 static GLuint compile_shader(const char *src, GLuint type) {
   GLuint shader = glCreateShader(type);
   glShaderSource(shader, 1, &src, NULL);
@@ -26,7 +34,7 @@ static GLuint compile_shader(const char *src, GLuint type) {
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
     char *msg = malloc(length * sizeof(char));
     glGetShaderInfoLog(shader, length, &length, msg);
-    fprintf(stderr, "Failed to compile shader: %s\n", msg);
+    fprintf(stderr, "Failed to compile %s: %s\n", shader_type_str(type), msg);
     free(msg);
     glDeleteShader(shader);
     return 0;
@@ -69,5 +77,3 @@ void render_update() {
 
   glDrawArrays(GL_TRIANGLES, 0, 6);
 }
-
-void render_cleanup() { glDeleteProgram(main_program); }
