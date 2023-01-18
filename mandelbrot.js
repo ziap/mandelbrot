@@ -50,7 +50,7 @@ gl.bindVertexArray(avo)
 let center_x = canvas.width / 6
 let center_y = 0
 let scale = relative_scale()
-let zoom_level = 1
+let zoom_level = 0
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT)
 
