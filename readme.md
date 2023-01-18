@@ -17,7 +17,7 @@ Experimental mandelbrot explorer in C and OpenGL.
 
 ## Result
 
-![](result.png)
+![](logo.png)
 
 ## Requirements
 
