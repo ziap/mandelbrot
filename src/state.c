@@ -56,8 +56,6 @@ void StateZoom(float dz, float mx, float my) {
   else
     global_state.scale /= 1.1;
 
-  // printf("%f\n", global_state.scale);
-
   global_state.center_x *= global_state.scale;
   global_state.center_y *= global_state.scale;
 

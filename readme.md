@@ -4,14 +4,13 @@ Experimental mandelbrot explorer in C and OpenGL.
 
 ## Features
 
-- [ ] Continous renderering (removed to save memory)
 - [x] Histogram coloring
 - [x] Sine color palette
 - [x] Normalized iteration count
 - [ ] Shading (Need more research)
 - [ ] Supersampling anti-aliasing
 - [x] Compute on OpenGL (or maybe even Vulkan) fragment shader
-- [ ] WebGL port
+- [x] WebGL port
 - [x] Dynamic width and height
 - [x] Zoom and pan
 - [ ] Screenshot tool

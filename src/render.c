@@ -66,6 +66,9 @@ void render_init() {
   u_center = glGetUniformLocation(main_program, "u_center");
   u_scale = glGetUniformLocation(main_program, "u_scale");
   u_resolution = glGetUniformLocation(main_program, "u_resolution");
+
+  GLint u_maxiter = glGetUniformLocation(main_program, "u_maxiter");
+  glUniform1f(u_maxiter, 1024.0);
 };
 
 void render_update() {
