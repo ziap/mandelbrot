@@ -69,6 +69,10 @@ void render_init() {
 
   GLint u_maxiter = glGetUniformLocation(main_program, "u_maxiter");
   glUniform1f(u_maxiter, 1024.0);
+
+  GLuint avo;
+  glCreateVertexArrays(1, &avo);
+  glBindVertexArray(avo);
 };
 
 void render_update() {

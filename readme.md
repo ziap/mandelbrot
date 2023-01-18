@@ -1,6 +1,8 @@
 # Mandelbrot explorer
 
-Experimental mandelbrot explorer in C and OpenGL.
+Mandelbrot explorer in C and OpenGL ES.
+
+Web demo: <https://ziap.github.io/mandelbrot> (JS and WebGL)
 
 ## Features
 
