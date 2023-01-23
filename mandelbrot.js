@@ -187,8 +187,8 @@ function touch_move(e) {
     const dx = new_touch_pos[0] - canvas.width / 2
     const dy = new_touch_pos[1] - canvas.height / 2
 
-    center_x += dx
-    center_y -= dy
+    center_x -= dx
+    center_y += dy
 
     center_x /= scale
     center_y /= scale
@@ -198,8 +198,8 @@ function touch_move(e) {
     center_x *= scale
     center_y *= scale
 
-    center_x -= dx
-    center_y += dy
+    center_x += dx
+    center_y -= dy
   }
 
   last_touch_pos = new_touch_pos
