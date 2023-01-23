@@ -168,7 +168,7 @@ function touch_start(e) {
 function touch_end(e) {
   last_touch_pos = get_touch_pos(e.touches)
   last_dist = 0
-  is_touching = true
+  is_touching = false
   e.preventDefault()
 }
 
@@ -208,14 +208,14 @@ function touch_move(e) {
   render()
 }
 
-addEventListener('mousemove', mouse_move)
-addEventListener('mousedown', mouse_down)
-addEventListener('mouseup', () => is_dragging = false)
-addEventListener('wheel', zoom)
+canvas.addEventListener('mousemove', mouse_move)
+canvas.addEventListener('mousedown', mouse_down)
+canvas.addEventListener('mouseup', () => is_dragging = false)
+canvas.addEventListener('wheel', zoom)
 
-addEventListener('touchmove', touch_move)
-addEventListener('touchstart', touch_start)
-addEventListener('touchend', () => touch_end)
+canvas.addEventListener('touchmove', touch_move)
+canvas.addEventListener('touchstart', touch_start)
+canvas.addEventListener('touchend', () => touch_end)
 
 addEventListener('resize', resize)
 resize()
