@@ -86,14 +86,14 @@ function resize() {
 
 let is_dragging = false
 let last_x, last_y
-function start_drag(e) {
+function mouse_down(e) {
   last_x = e.clientX
   last_y = e.clientY
 
   is_dragging = true
 }
 
-function move(e) {
+function mouse_move(e) {
   if (is_dragging) {
     center_x += e.clientX - last_x
     center_y -= e.clientY - last_y
@@ -127,12 +127,95 @@ function zoom(e) {
   render()
 }
 
-addEventListener('resize', resize)
-addEventListener('mousemove', move)
-addEventListener('mousedown', start_drag)
+function get_touch_pos(touches) {
+  let touch_x = 0
+  let touch_y = 0
+
+  for (const touch of touches) {
+    touch_x += touch.clientX / touches.length
+    touch_y += touch.clientY / touches.length
+  }
+
+  return [touch_x, touch_y]
+}
+
+function get_pinch_dist(touches) {
+  let dist = 0
+
+  for (let i = 0; i < touches.length - 1; ++i) {
+    for (let j = 0; j < touches.length; ++j) {
+      const dx = touches[i].clientX - touches[j].clientX
+      const dy = touches[i].clientY - touches[j].clientY
+
+      dist = Math.max(dist, Math.hypot(dx, dy))
+    }
+  }
+
+  return dist
+}
+
+let is_touching = false
+let last_touch_pos
+let last_dist = 0
+
+function touch_start(e) {
+  last_touch_pos = get_touch_pos(e.touches)
+  last_dist = get_pinch_dist(e.touches)
+  is_touching = true
+  e.preventDefault()
+}
+
+function touch_end(e) {
+  last_touch_pos = get_touch_pos(e.touches)
+  last_dist = 0
+  is_touching = true
+  e.preventDefault()
+}
+
+function touch_move(e) {
+  const new_touch_pos = get_touch_pos(e.touches)
+  const new_dist = get_pinch_dist(e.touches)
+
+  const dx = new_touch_pos[0] - last_touch_pos[0]
+  const dy = new_touch_pos[1] - last_touch_pos[1]
+
+  center_x += dx
+  center_y -= dy
+
+  if (last_dist != 0) {
+    const dx = new_touch_pos[0] - canvas.width / 2
+    const dy = new_touch_pos[1] - canvas.height / 2
+
+    center_x += dx
+    center_y -= dy
+
+    center_x /= scale
+    center_y /= scale
+
+    scale *= new_dist / last_dist
+
+    center_x *= scale
+    center_y *= scale
+
+    center_x -= dx
+    center_y += dy
+  }
+
+  last_touch_pos = new_touch_pos
+  last_dist = new_dist
+  e.preventDefault()
+
+  render()
+}
+
+addEventListener('mousemove', mouse_move)
+addEventListener('mousedown', mouse_down)
 addEventListener('mouseup', () => is_dragging = false)
 addEventListener('wheel', zoom)
 
-// TODO: Implement touch control
+addEventListener('touchmove', touch_move)
+addEventListener('touchstart', touch_start)
+addEventListener('touchend', () => touch_end)
 
+addEventListener('resize', resize)
 resize()
