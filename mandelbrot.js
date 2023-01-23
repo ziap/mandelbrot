@@ -168,7 +168,8 @@ function touch_start(e) {
 function touch_end(e) {
   last_touch_pos = get_touch_pos(e.touches)
   last_dist = 0
-  is_touching = false
+
+  if (e.touches.length == 0) is_touching = false
   e.preventDefault()
 }
 
@@ -215,7 +216,7 @@ canvas.addEventListener('wheel', zoom)
 
 canvas.addEventListener('touchmove', touch_move)
 canvas.addEventListener('touchstart', touch_start)
-canvas.addEventListener('touchend', () => touch_end)
+canvas.addEventListener('touchend', touch_end)
 
 addEventListener('resize', resize)
 resize()
