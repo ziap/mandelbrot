@@ -4,10 +4,9 @@
 precision highp float;
 #endif
 
-uniform vec2 u_resolution;
-uniform vec2 u_center;
-uniform float u_scale;
 uniform float u_maxiter;
+
+in vec2 out_uv;
 
 vec3 color_offset = vec3(0.55, 0.35, 0.15);
 
@@ -22,7 +21,7 @@ vec3 palette(float iter) {
 out vec4 out_color;
 
 void main() {
-  vec2 c = (gl_FragCoord.xy - u_resolution / 2.0 - u_center) / u_scale;
+  vec2 c = out_uv;
 
   float xx = 0.0;
   float yy = 0.0;
