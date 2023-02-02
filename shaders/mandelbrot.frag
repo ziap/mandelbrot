@@ -18,26 +18,23 @@ vec3 palette(float iter) {
   return 0.5 + 0.5 * sin(PI2 * (color_offset + iter / HUE_SCALE));
 }
 
+vec2 cmul(vec2 a, vec2 b) {
+  return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
+}
+
 out vec4 out_color;
 
 void main() {
   vec2 c = out_uv;
-
-  float xx = 0.0;
-  float yy = 0.0;
-  float w = 0.0;
-  float len = 0.0;
+  vec2 z = out_uv;
+  vec2 dz = vec2(1.0, 0.0);
 
   float iter = 0.0;
+  float len = dot(z, z);
   while (len < BAILOUT && iter < u_maxiter) {
-    float x = xx - yy + c.x;
-    float y = w - xx - yy + c.y;
-    float xy = x + y;
-
-    xx = x * x;
-    yy = y * y;
-    len = xx + yy;
-    w = xy * xy;
+    dz = 2.0 * cmul(z, dz);
+    z = cmul(z, z) + c;
+    len = dot(z, z);
     iter += 1.0;
   }
   
@@ -50,7 +47,10 @@ void main() {
 
     float interp = 1.0 - nu - fnu;
 
-    out_color = vec4(mix(palette(iter1), palette(iter2), interp), 1.0);
+    vec2 grad = normalize(cmul(z, vec2(dz.x, -dz.y)));
+    vec3 col = mix(palette(iter1), palette(iter2), interp) * (0.8 + 0.2 * (grad.x + grad.y));
+
+    out_color = vec4(col, 1.0);
   } else {
     out_color = vec4(0.0, 0.0, 0.0, 1.0);
   }

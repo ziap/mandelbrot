@@ -9,12 +9,13 @@ Web demo: <https://ziap.github.io/mandelbrot> (JS and WebGL)
 - [x] Histogram coloring
 - [x] Sine color palette
 - [x] Normalized iteration count
-- [ ] Shading (Need more research)
+- [x] Shading
 - [ ] Supersampling anti-aliasing
 - [x] Compute on OpenGL (or maybe even Vulkan) fragment shader
 - [x] WebGL port
 - [x] Dynamic width and height
 - [x] Zoom and pan
+- [ ] Perbutation
 - [ ] Screenshot tool
 
 ## Result
