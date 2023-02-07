@@ -94,13 +94,12 @@ function mouse_down(e) {
 }
 
 function mouse_move(e) {
-  if (is_dragging) {
-    center_x += e.clientX - last_x
-    center_y -= e.clientY - last_y
+  if (!is_dragging) return
+  center_x += e.movementX
+  center_y -= e.movementY
 
-    last_x = e.clientX
-    last_y = e.clientY
-  }
+  last_x = e.clientX
+  last_y = e.clientY
 
   render()
 }
@@ -200,13 +199,13 @@ function touch_move(e) {
 
     center_x += dx
     center_y -= dy
+
+    render()
   }
 
   last_touch_pos = new_touch_pos
   last_dist = new_dist
   e.preventDefault()
-
-  render()
 }
 
 canvas.addEventListener('mousemove', mouse_move)
