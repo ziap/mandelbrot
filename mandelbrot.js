@@ -199,9 +199,9 @@ function touch_move(e) {
 
     center_x += dx
     center_y -= dy
-
-    render()
   }
+  
+  render()
 
   last_touch_pos = new_touch_pos
   last_dist = new_dist
